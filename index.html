@@ -134,6 +134,8 @@
                 if (retirementDateUTS < getUTS('01.04.2009')) {
                     SCoeff = 1.0;
                 } else if (retirementDateUTS >= getUTS('01.04.2009') && retirementDateUTS < getUTS('01.07.2017')) {
+                    SCoeff = 1.1;
+                } else if (retirementDateUTS >= getUTS('01.07.2017') && retirementDateUTS < getUTS('01.07.2018')) {
                     SCoeff = 1.126;
                 } else if (retirementDateUTS >= getUTS('01.07.2018') && retirementDateUTS < getUTS('01.07.2019')) {
                     SCoeff = 1.169;
