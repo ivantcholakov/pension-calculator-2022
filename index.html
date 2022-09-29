@@ -163,9 +163,9 @@
                         var od = parseFloat($('#od').val().replace(/,/g, '.'));
 
                         var result = SCoeff * st / 100.0 * ic * od;
-                        result = parseFloat(result).toFixed(2);
+                        result = parseFloat(result).toFixed(2) + '';
 
-                        $('#result').html(result + ' лева');
+                        $('#result').html(result.replace(/\./g, ',') + ' лева');
                         $('#result-message').show();
                     }
 
