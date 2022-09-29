@@ -55,6 +55,47 @@
     
     <script>
 
+        function parseDate(input, format) {
+
+            format = format || 'yyyy-mm-dd'; // default format
+
+            var parts = input.match(/(\d+)/g), i = 0, fmt = {};
+
+            // extract date-part indexes from the format
+            format.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
+
+            return new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']]);
+        }
+
+        function getUTS(input) {
+
+            var dateObj = parseDate(input, 'dd.mm.yyyy');
+
+            return dateObj..getTime();
+        }
+
+        function getSCoeff(retirementDate) {
+
+            var SCoeff = 1.0;
+
+            var retirementDateUTS = getUTS(retirementDate);
+
+            if (retirementDateUTS < getUTS('01.04.2009')) {
+                SCoeff = 1.0;
+            } else if (retirementDateUTS >= getUTS('01.04.2009') && retirementDateUTS < getUTS('01.07.2017')) {
+                SCoeff = 1.126;
+            } else if (retirementDateUTS >= getUTS('01.07.2018') && retirementDateUTS < getUTS('01.07.2019')) {
+                SCoeff = 1.169;
+            } else if (retirementDateUTS >= getUTS('01.07.2019') && retirementDateUTS < getUTS('25.12.2022')) {
+                SCoeff = 1.2;
+            } else {
+                // >= getUTS('25.12.2022')
+                SCoeff = 1.35;
+            }
+
+            return SCoeff;
+        }
+
         $(function() {
 
            $('#datepicker').datepicker({
