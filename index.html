@@ -54,14 +54,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
-                                    <label for="od" class="form-label">Среден осигурителен доход за 2021 г., в лева</label>
-                                    <input type="text" class="form-control" id="od" placeholder="" value="" required>
-                                    <div class="invalid-feedback">
-                                        Трябва да се въведе положително реално число.
-                                    </div>
-                                </div>
-
                             </div>
 
                             <hr class="my-4">
@@ -172,7 +164,7 @@
                     }
                 });
 
-                $('body').on('keypress', '#st, #ic, #od', function(e) {
+                $('body').on('keypress', '#st, #ic', function(e) {
 
                     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 44 && e.which != 46) {
 
@@ -214,7 +206,7 @@
                         var SCoeff = parseFloat(getSCoeff($('#dateOfRetirement').val()));
                         var st = parseFloat($('#st').val().replace(/,/g, '.'));
                         var ic = parseFloat($('#ic').val().replace(/,/g, '.'));
-                        var od = parseFloat($('#od').val().replace(/,/g, '.'));
+                        var od = 1169.25;   // Среден осигурителен доход за 2021 г.
 
                         var result = SCoeff * st / 100.0 * ic * od;
                         result = parseFloat(result).toFixed(2) + '';
