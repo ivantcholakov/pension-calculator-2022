@@ -104,6 +104,22 @@
 
         <script>
 
+            function inIFrame() {
+
+                try {
+
+                    if (window.location !== window.parent.location) {
+
+                        return true;
+                    }
+
+                    return false;
+
+                } catch {}
+
+                return false;
+            }
+
             function parseDate(input, format) {
 
                 format = format || 'yyyy-mm-dd'; // default format
@@ -266,14 +282,16 @@
                     return false;
                 });
 
-                try {
+                if (!inIFrame()) {
 
-                    if (1 < history.length) {
-                        document.getElementById('back-container').style.display = 'block';
-                    }
+                    try {
 
-                } catch {}
+                        if (1 < history.length) {
+                            document.getElementById('back-container').style.display = 'block';
+                        }
 
+                    } catch {}
+                }
             });
 
         </script>
