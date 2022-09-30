@@ -54,12 +54,24 @@
                                     </div>
                                 </div>
 
+                                <div class="col-12">
+                                    <label for="op" class="form-label">Основен размер на Вашата пенсия към септември 2022&nbsp;г. (не е задължително да се въвежда)</label>
+                                    <input type="text" class="form-control" id="op" placeholder="" value="">
+                                    <div class="invalid-feedback">
+                                        Трябва да се въведе положително реално число.
+                                    </div>
+                                </div>
+
                             </div>
 
                             <hr class="my-4">
 
                             <div class="alert alert-primary" id="result-message" role="alert" style="display: none;">
-                                Вашата пенсия от 01.10.2022&nbsp;г.: <strong><span id="result"></span></strong>
+                                Вашата пенсия от 01.10.2022&nbsp;г.: <strong><span id="result"></span></strong>. <span id="result-extra"></span>
+                            </div>
+
+                            <div class="alert alert-success" id="result-2-message" role="alert" style="display: none;">
+                                <span id="result-2"></span>
                             </div>
 
                             <button class="w-100 btn btn-primary btn-lg" type="submit">Изчисли</button>
@@ -165,7 +177,7 @@
                     }
                 });
 
-                $('body').on('keypress', '#st, #ic', function(e) {
+                $('body').on('keypress', '#st, #ic, #op', function(e) {
 
                     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 44 && e.which != 46) {
 
@@ -191,6 +203,16 @@
                     }
                 });
 
+                $('body').on('keypress, change', '#dateOfRetirement, #st, #ic, #op', function(e) {
+
+                    $('#result').html('');
+                    $('#result-extra').html('');
+                    $('#result-message').hide();
+
+                    $('#result-2').html('');
+                    $('#result-2-message').hide();
+                });
+
                 var form = document.getElementById('form');
                 
                 form.addEventListener('submit', function (event) {
@@ -208,12 +230,38 @@
                         var st = parseFloat($('#st').val().replace(/,/g, '.'));
                         var ic = parseFloat($('#ic').val().replace(/,/g, '.'));
                         var od = 1169.25;   // Среден осигурителен доход за 2021 г.
+                        var op = parseFloat($('#op').val().replace(/,/g, '.'));
+                        var result_2 = 0.0;
+                        var result_2_text = '';
 
                         var result = SCoeff * st / 100.0 * ic * od;
+
+                        if ($('#op').val() != '' && !isNaN(op)) {
+                            
+                            result_2 = result - op;
+
+                            if (!isNaN(result_2)) {
+
+                                result_2_text = result_2.toFixed(2) + '';
+                                result_2_text = result_2_text.replace(/\./g, ',') + ' лева';
+                            }
+                        }
+
                         result = parseFloat(result).toFixed(2) + '';
 
                         $('#result').html(result.replace(/\./g, ',') + ' лева');
+                        $('#result-extra').html('');
                         $('#result-message').show();
+
+                        if (result_2 > 0.0) {
+
+                            $('#result-2').html('Вашата пенсия ще се увеличи с <strong>' + result_2_text + '</strong>.');
+                            $('#result-2-message').show();
+
+                        } else if (result_2 < 0.0) {
+
+                            $('#result-extra').html('Остава без изменение.');
+                        }
                     }
 
                     return false;
