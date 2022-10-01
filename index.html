@@ -189,7 +189,7 @@
                     }
                 });
 
-                $('body').on('keypress', '#st, #ic, #op', function(e) {
+                $('body').on('keypress', '#st, #op', function(e) {
 
                     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 44 && e.which != 46) {
 
@@ -208,6 +208,32 @@
                         var new_value = $(this).val() + String.fromCharCode(e.which);
 
                         if (!new_value.match(/^\d*(?:[\.,]\d{0,2})?$/)) {
+
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                });
+
+                $('body').on('keypress', '#ic', function(e) {
+
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 44 && e.which != 46) {
+
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    if (e.target.value.toString().length >= 10) {
+
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    if (e.which > 32) {
+
+                        var new_value = $(this).val() + String.fromCharCode(e.which);
+
+                        if (!new_value.match(/^\d*(?:[\.,]\d{0,4})?$/)) {
 
                             e.preventDefault();
                             return false;
